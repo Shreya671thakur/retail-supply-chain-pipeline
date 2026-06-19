@@ -1,0 +1,7 @@
+apache-airflow==2.9.3
+pyspark==3.5.1
+pandas==2.2.2
+psycopg2-binary==2.9.9
+sqlalchemy==1.4.52
+faker==25.8.0
+pyarrow==16.1.0

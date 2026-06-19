@@ -1,0 +1,102 @@
+supplier_id,supplier_name,category,country,city,contact_email,phone,rating,onboarded_date
+SUP0001,National Supplies Co,Home Appliances,Mexico,Monterrey,contact@nationalsuppliesco.com,+95-3342331444,3.1,2019-07-26
+SUP0002,Northstar Exports Ltd,Electronics,USA,Chicago,contact@northstarexportsltd.com,+65-3585650756,2.7,2020-08-10
+SUP0003,Evergreen Logistics Group,Sports Equipment,Brazil,Sao Paulo,contact@evergreenlogisticsgroup.com,+29-4733616459,4.3,2022-09-15
+SUP0004,Atlantic Exports Ltd,Home Appliances,France,Paris,contact@atlanticexportsltd.com,+14-5693307665,,2021-10-10
+SUP0005,National Distributors,Toys,Italy,Milan,contact@nationaldistributors.com,+94-9256195745,4.0,2018-06-27
+SUP0006,United Goods Network,Sports Equipment,Germany,Munich,contact@unitedgoodsnetwork.com,+74-1298737106,4.0,2022-01-21
+SUP0007,Apex Manufacturing Corp,Furniture,USA,Los Angeles,contact@apexmanufacturingcorp.com,+36-8877444318,4.7,2022-04-06
+SUP0008,Atlantic Distributors,Furniture,France,Lyon,contact@atlanticdistributors.com,+78-3727210979,4.2,2018-10-20
+SUP0009,Atlantic Wholesale Partners,Home Appliances,India,Mumbai,contact@atlanticwholesalepartners.com,+29-8235363119,5.0,2024-03-31
+SUP0010,Prime Logistics Group,Electronics,South Korea,Seoul,contact@primelogisticsgroup.com,+35-1284277889,4.5,2022-07-02
+SUP0011,Northstar Distributors,Sports Equipment,UK,London,contact@northstardistributors.com,+19-2137651678,3.7,2023-02-23
+SUP0012,Apex Goods Network,Home Appliances,China,Shenzhen,contact@apexgoodsnetwork.com,+75-7010379415,4.4,2022-10-21
+SUP0013,Apex Industries Inc,Footwear,China,Shanghai,contact@apexindustriesinc.com,+15-8217611860,2.7,2018-07-12
+SUP0014,Bluepeak Trading Ltd,Stationery,India,Mumbai,contact@bluepeaktradingltd.com,+68-5047709743,4.0,2023-04-02
+SUP0015,National Goods Network,Home Appliances,Netherlands,Rotterdam,contact@nationalgoodsnetwork.com,+15-6555540744,4.4,2021-10-25
+SUP0016,Global Manufacturing Corp,Groceries,China,Shanghai,contact@globalmanufacturingcorp.com,+81-3615507143,3.8,2019-03-12
+SUP0017,Pacific Distributors,Groceries,Netherlands,Rotterdam,contact@pacificdistributors.com,+1-7867414708,3.8,2023-12-13
+SUP0018,Titan Supplies Co,Toys,USA,Dallas,contact@titansuppliesco.com,+31-1248786714,4.7,2021-06-13
+SUP0019,Northstar Trading Ltd,Hardware Tools,USA,Los Angeles,contact@northstartradingltd.com,+98-1540137296,3.7,2018-10-11
+SUP0020,Titan Goods Network,Home Appliances,Canada,Vancouver,contact@titangoodsnetwork.com,+55-5141907136,3.8,2024-10-20
+SUP0021,Vertex Exports Ltd,Sports Equipment,Australia,Melbourne,contact@vertexexportsltd.com,+58-1519709079,3.4,2023-10-21
+SUP0022,Apex Trading Ltd,Electronics,France,Paris,contact@apextradingltd.com,+76-1945826486,4.0,2020-07-31
+SUP0023,United Supplies Co,Apparel,UK,Manchester,contact@unitedsuppliesco.com,+10-3208283728,4.8,2021-09-15
+SUP0024,Horizon Wholesale Partners,Automotive Parts,UK,London,contact@horizonwholesalepartners.com,+74-3030106617,2.8,2024-05-27
+SUP0025,Titan Exports Ltd,Apparel,UK,London,contact@titanexportsltd.com,+46-7114223633,2.7,2022-11-01
+SUP0026,Falcon Supplies Co,Sports Equipment,Australia,Melbourne,contact@falconsuppliesco.com,+8-4700855390,5.0,2019-02-08
+SUP0027,Apex Logistics Group,Automotive Parts,UK,London,contact@apexlogisticsgroup.com,+24-6491309593,3.6,2022-09-25
+SUP0028,Falcon Goods Network,Electronics,USA,Dallas,contact@falcongoodsnetwork.com,+2-5161807235,4.1,2024-01-24
+SUP0029,Pioneer Wholesale Partners,Furniture,India,Delhi,contact@pioneerwholesalepartners.com,+22-2627677155,4.7,2018-08-29
+SUP0030,Crown Manufacturing Corp,Footwear,UAE,Dubai,contact@crownmanufacturingcorp.com,+85-8380507338,3.2,2024-03-26
+SUP0031,Pacific Logistics Group,Furniture,Germany,Munich,contact@pacificlogisticsgroup.com,+95-3328710672,4.9,2024-06-30
+SUP0032,Nova Supplies Co,Health & Beauty,USA,Chicago,contact@novasuppliesco.com,+21-3181106786,3.7,2023-12-16
+SUP0033,Atlantic Trading Ltd,Apparel,Japan,Osaka,contact@atlantictradingltd.com,+52-3553440342,4.2,2020-08-21
+SUP0034,Pioneer Sourcing Inc,Automotive Parts,Japan,Tokyo,contact@pioneersourcinginc.com,+27-2349409434,3.3,2020-12-04
+SUP0035,Horizon Exports Ltd,Sports Equipment,Canada,Toronto,contact@horizonexportsltd.com,+41-5018948187,4.1,2023-02-16
+SUP0036,Global Wholesale Partners,Health & Beauty,Japan,Osaka,contact@globalwholesalepartners.com,+69-2139027119,5.0,2018-10-28
+SUP0037,Sterling Trading Ltd,Furniture,Spain,Barcelona,contact@sterlingtradingltd.com,+57-8316648259,3.4,2019-10-09
+SUP0038,Bluepeak Goods Network,Sports Equipment,USA,New York,contact@bluepeakgoodsnetwork.com,+85-4771526597,4.5,2021-05-11
+SUP0039,Horizon Trading Ltd,Apparel,Spain,Barcelona,contact@horizontradingltd.com,+35-2472659626,4.4,2019-09-29
+SUP0040,Horizon Goods Network,Home Appliances,India,Delhi,contact@horizongoodsnetwork.com,+12-8019198243,4.8,2018-07-28
+SUP0041,Horizon Supplies Co,Toys,USA,New York,contact@horizonsuppliesco.com,+21-8478529823,4.4,2020-12-08
+SUP0042,Evergreen Exports Ltd,Electronics,China,Shenzhen,contact@evergreenexportsltd.com,+70-3373077218,2.8,2019-09-03
+SUP0043,Pioneer Industries Inc,Home Appliances,USA,Chicago,contact@pioneerindustriesinc.com,+46-5736462531,3.4,2018-06-13
+SUP0044,Bluepeak Industries Inc,Furniture,UAE,Dubai,contact@bluepeakindustriesinc.com,+53-1106456634,4.7,2019-12-27
+SUP0045,Nova Exports Ltd,Sports Equipment,Vietnam,Hanoi,contact@novaexportsltd.com,+35-4011966884,4.7,2020-10-13
+SUP0046,Crown Supplies Co,Footwear,Italy,Milan,contact@crownsuppliesco.com,+45-1977515194,3.1,2023-03-01
+SUP0047,Global Logistics Group,Toys,India,Mumbai,contact@globallogisticsgroup.com,+99-6493800024,3.2,2018-10-12
+SUP0048,Continental Exports Ltd,Automotive Parts,Australia,Melbourne,contact@continentalexportsltd.com,+15-2121910732,3.3,2018-04-24
+SUP0049,Northstar Manufacturing Corp,Apparel,USA,Chicago,contact@northstarmanufacturingcorp.com,+94-8672650595,4.0,2021-11-16
+SUP0050,Continental Trading Ltd,Health & Beauty,India,Mumbai,contact@continentaltradingltd.com,+91-2872852789,3.0,2018-07-01
+SUP0051,Continental Goods Network,Hardware Tools,Australia,Melbourne,contact@continentalgoodsnetwork.com,+47-2852408227,4.9,2020-03-18
+SUP0052,Nova Sourcing Inc,Sports Equipment,France,Paris,contact@novasourcinginc.com,+65-7049001493,4.6,2021-05-15
+SUP0053,Evergreen Industries Inc,Stationery,UK,London,contact@evergreenindustriesinc.com,+87-7739255769,4.2,2022-04-02
+SUP0054,Crown Goods Network,Electronics,South Korea,Seoul,contact@crowngoodsnetwork.com,+56-6679017210,3.3,2020-05-10
+SUP0055,Falcon Wholesale Partners,Furniture,Australia,Melbourne,contact@falconwholesalepartners.com,+85-5659161352,3.8,2019-11-27
+SUP0056,Continental Sourcing Inc,Apparel,France,Paris,contact@continentalsourcinginc.com,+87-2333241445,4.5,2020-08-20
+SUP0057,Summit Industries Inc,Electronics,USA,New York,contact@summitindustriesinc.com,+79-5607762160,3.1,2023-05-01
+SUP0058,Summit Exports Ltd,Stationery,India,Delhi,contact@summitexportsltd.com,+97-4803044105,3.1,2018-01-23
+SUP0059,Pioneer Logistics Group,Hardware Tools,Canada,Vancouver,contact@pioneerlogisticsgroup.com,+72-4643576871,3.8,2018-07-25
+SUP0060,Falcon Industries Inc,Footwear,Vietnam,Hanoi,contact@falconindustriesinc.com,+77-8995059760,4.2,2024-04-08
+SUP0061,Falcon Manufacturing Corp,Furniture,Netherlands,Rotterdam,contact@falconmanufacturingcorp.com,+99-6322520473,4.6,2021-02-09
+SUP0062,Falcon Trading Ltd,Home Appliances,Brazil,Sao Paulo,contact@falcontradingltd.com,+41-1346078411,3.1,2021-10-07
+SUP0063,Crown Industries Inc,Furniture,Brazil,Sao Paulo,contact@crownindustriesinc.com,+43-7625464411,2.7,2022-07-28
+SUP0064,Pioneer Supplies Co,Stationery,UK,London,contact@pioneersuppliesco.com,+90-7767538527,3.5,2024-07-20
+SUP0065,Sterling Manufacturing Corp,Stationery,Netherlands,Rotterdam,contact@sterlingmanufacturingcorp.com,+69-6242173772,4.6,2022-09-13
+SUP0066,Global Exports Ltd,Sports Equipment,France,Paris,contact@globalexportsltd.com,+93-1116402431,4.2,2022-07-15
+SUP0067,Prime Manufacturing Corp,Toys,India,Mumbai,contact@primemanufacturingcorp.com,+44-6923301988,3.0,2021-08-31
+SUP0068,Pioneer Manufacturing Corp,Apparel,South Korea,Seoul,contact@pioneermanufacturingcorp.com,+7-2503068227,3.7,2024-01-19
+SUP0069,Summit Supplies Co,Groceries,Japan,Osaka,contact@summitsuppliesco.com,+86-5070585433,3.1,2023-04-24
+SUP0070,Sterling Industries Inc,Health & Beauty,Japan,Osaka,contact@sterlingindustriesinc.com,+21-9438411468,4.9,2019-04-15
+SUP0071,National Sourcing Inc,Home Appliances,USA,New York,contact@nationalsourcinginc.com,+51-1851819913,3.9,2022-03-18
+SUP0072,Northstar Logistics Group,Hardware Tools,USA,Dallas,contact@northstarlogisticsgroup.com,+16-5471357886,4.4,2024-09-25
+SUP0073,Continental Distributors,Stationery,USA,New York,contact@continentaldistributors.com,+56-9421518487,4.6,2019-03-09
+SUP0074,Continental Manufacturing Corp,Automotive Parts,Japan,Osaka,contact@continentalmanufacturingcorp.com,+56-7839626408,4.4,2023-03-20
+SUP0075,Nova Logistics Group,Apparel,South Korea,Seoul,contact@novalogisticsgroup.com,+32-8518238399,3.2,2023-01-21
+SUP0076,Northstar Sourcing Inc,Stationery,Australia,Melbourne,contact@northstarsourcinginc.com,+42-6075963527,3.3,2023-07-18
+SUP0077,Summit Distributors,Home Appliances,Vietnam,Hanoi,contact@summitdistributors.com,+90-9074999565,3.4,2024-09-07
+SUP0078,Evergreen Supplies Co,Furniture,China,Shanghai,,+63-8352307139,2.7,2022-07-23
+SUP0079,United Manufacturing Corp,Stationery,UK,Manchester,contact@unitedmanufacturingcorp.com,+85-7792729530,4.2,2021-06-08
+SUP0080,Pioneer Goods Network,Toys,France,Paris,contact@pioneergoodsnetwork.com,+40-2079770569,4.3,2021-01-14
+SUP0081,National Logistics Group,Apparel,France,Paris,contact@nationallogisticsgroup.com,+25-7374584386,4.4,2020-01-29
+SUP0082,Northstar Goods Network,Home Appliances,Japan,Osaka,contact@northstargoodsnetwork.com,+38-6272000062,5.0,2020-03-06
+SUP0083,Atlantic Manufacturing Corp,Hardware Tools,USA,New York,contact@atlanticmanufacturingcorp.com,+6-5184564874,3.8,2021-01-28
+SUP0084,Evergreen Manufacturing Corp,Groceries,Brazil,Sao Paulo,contact@evergreenmanufacturingcorp.com,+14-4748302739,4.1,2023-07-04
+SUP0085,Titan Wholesale Partners,Toys,India,Bengaluru,contact@titanwholesalepartners.com,+33-3051831252,3.0,2018-07-30
+SUP0086,United Exports Ltd,Apparel,India,Delhi,contact@unitedexportsltd.com,+20-2304963614,3.9,2018-08-08
+SUP0087,Bluepeak Sourcing Inc,Health & Beauty,Vietnam,Hanoi,contact@bluepeaksourcinginc.com,+49-7196439534,3.1,2023-11-11
+SUP0088,Vertex Sourcing Inc,Electronics,Japan,Osaka,contact@vertexsourcinginc.com,+98-6201313620,4.0,2019-02-11
+SUP0089,United Industries Inc,Groceries,UK,Manchester,contact@unitedindustriesinc.com,+1-7049536909,3.9,2019-10-04
+SUP0090,Bluepeak Wholesale Partners,Electronics,Germany,Munich,contact@bluepeakwholesalepartners.com,+90-8986950095,3.1,2021-03-04
+SUP0091,United Logistics Group,Home Appliances,UAE,Dubai,,+85-6144594354,4.5,2024-08-12
+SUP0092,Horizon Industries Inc,Electronics,USA,Los Angeles,contact@horizonindustriesinc.com,+77-6534540349,2.9,2021-06-13
+SUP0093,National Wholesale Partners,Home Appliances,Brazil,Sao Paulo,contact@nationalwholesalepartners.com,+65-7614170462,4.2,2021-01-20
+SUP0094,Bluepeak Supplies Co,Stationery,Spain,Barcelona,contact@bluepeaksuppliesco.com,+33-1111088881,4.3,2024-10-08
+SUP0095,Apex Sourcing Inc,Electronics,Japan,Tokyo,contact@apexsourcinginc.com,+74-4248149900,5.0,2021-01-08
+SUP0096,Atlantic Sourcing Inc,Sports Equipment,India,Pune,contact@atlanticsourcinginc.com,+61-6789448659,4.5,2019-01-09
+SUP0097,Nova Distributors,Apparel,Australia,Melbourne,contact@novadistributors.com,+53-8274273035,4.6,2021-09-12
+SUP0098,Nova Manufacturing Corp,Apparel,France,Paris,contact@novamanufacturingcorp.com,+66-9594878379,4.9,2022-07-14
+SUP0099,Evergreen Wholesale Partners,Electronics,India,Pune,contact@evergreenwholesalepartners.com,+80-8543865915,3.0,2022-01-21
+SUP0100,Summit Manufacturing Corp,Groceries,China,Shenzhen,contact@summitmanufacturingcorp.com,+90-3081821325,4.8,2022-11-30
+SUP0040,Horizon Goods Network,Home Appliances,India,Delhi,contact@horizongoodsnetwork.com,+12-8019198243,4.8,2018-07-28
