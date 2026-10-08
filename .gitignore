@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 .airflow/
 logs/
+pipeline_metrics/

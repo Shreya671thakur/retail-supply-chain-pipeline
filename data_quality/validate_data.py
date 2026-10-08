@@ -10,44 +10,50 @@ spark = (
 )
 
 input_path = "./output/analytical_dataset_parquet"
+quarantine_path = "./output/quarantine"
 
 df = spark.read.parquet(input_path)
 
 print("====================================")
-print("DATA QUALITY CHECKS")
+print("DATA QUALITY VALIDATION")
 print("====================================")
 
-print(f"Total rows: {df.count()}")
+total_records = df.count()
 
-# Check 1: shipment_id should not be null
-null_shipment_ids = df.filter(
+print(f"Total records: {total_records}")
+
+
+# -----------------------------
+# Define invalid records
+# -----------------------------
+
+invalid_condition = (
     col("shipment_id").isNull()
-).count()
+    | col("product_id").isNull()
+    | (col("quantity_shipped") < 0)
+    | (col("total_shipment_value") < 0)
+)
 
-print(f"Null shipment IDs: {null_shipment_ids}")
+invalid_df = df.filter(invalid_condition)
 
-# Check 2: product_id should not be null
-null_product_ids = df.filter(
-    col("product_id").isNull()
-).count()
+valid_df = df.filter(~invalid_condition)
 
-print(f"Null product IDs: {null_product_ids}")
 
-# Check 3: quantity shipped should not be negative
-negative_quantity = df.filter(
-    col("quantity_shipped") < 0
-).count()
+# -----------------------------
+# Calculate metrics
+# -----------------------------
 
-print(f"Negative quantities: {negative_quantity}")
+invalid_records = invalid_df.count()
+valid_records = valid_df.count()
 
-# Check 4: shipment value should not be negative
-negative_value = df.filter(
-    col("total_shipment_value") < 0
-).count()
+print(f"Valid records: {valid_records}")
+print(f"Invalid records: {invalid_records}")
 
-print(f"Negative shipment values: {negative_value}")
 
-# Check 5: duplicate shipment IDs
+# -----------------------------
+# Duplicate check
+# -----------------------------
+
 duplicate_shipments = (
     df.groupBy("shipment_id")
     .count()
@@ -55,23 +61,45 @@ duplicate_shipments = (
     .count()
 )
 
-total_errors = (
-    null_shipment_ids
-    + null_product_ids
-    + negative_quantity
-    + negative_value
-    + duplicate_shipments
-)
+print(f"Duplicate shipment IDs: {duplicate_shipments}")
+
+
+# -----------------------------
+# Save invalid records
+# -----------------------------
+
+if invalid_records > 0:
+    print("Writing invalid records to quarantine...")
+
+    invalid_df.write.mode("overwrite").parquet(
+        quarantine_path
+    )
+
+    print(f"Quarantine location: {quarantine_path}")
+
+else:
+    print("No invalid records found.")
+
+
+# -----------------------------
+# Final status
+# -----------------------------
 
 print("====================================")
-print(f"Total data quality errors: {total_errors}")
-print("====================================")
 
-if total_errors > 0:
+if invalid_records > 0 or duplicate_shipments > 0:
     print("DATA QUALITY STATUS: FAILED")
-    spark.stop()
-    raise ValueError("Data quality validation failed.")
+    print("Invalid records have been quarantined.")
 
-print("DATA QUALITY STATUS: PASSED")
+    spark.stop()
+
+    raise ValueError(
+        "Data quality validation failed."
+    )
+
+else:
+    print("DATA QUALITY STATUS: PASSED")
+
+print("====================================")
 
 spark.stop()
