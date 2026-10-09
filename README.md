@@ -34,7 +34,6 @@ A portfolio project that transforms supplier, inventory, and shipment CSV files 
 - [Output data](#-output-data)
 - [Troubleshooting](#-troubleshooting)
 - [Roadmap](#-roadmap)
-- [Attribution and license](#-attribution-and-license)
 
 ## 🎯 Project overview
 
