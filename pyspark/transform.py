@@ -255,7 +255,12 @@ def write_outputs(df: DataFrame, output_dir: str):
     parquet_path = os.path.join(output_dir, "analytical_dataset_parquet")
     csv_path = os.path.join(output_dir, "analytical_dataset_csv")
 
-    df.write.mode("overwrite").parquet(parquet_path)
+    (
+        df.write
+        .mode("overwrite")
+        .partitionBy("shipment_year", "shipment_month")
+        .parquet(parquet_path)
+    )
     df.coalesce(1).write.mode("overwrite").option("header", "true").csv(csv_path)
 
     print(f"[transform.py] Parquet written to: {parquet_path}")

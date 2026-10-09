@@ -1,7 +1,23 @@
-venv/
-output/
+
+# Python generated files
 __pycache__/
-*.pyc
-.airflow/
+*.py[cod]
+*.egg-info/
+
+# Virtual environments
+venv/
+.venv/
+
+# Generated pipeline outputs
+output/
 logs/
 pipeline_metrics/
+
+# Environment secrets
+.env
+.env.*
+
+# IDE and OS files
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,263 +1,432 @@
-# Retail Supply Chain Data Pipeline
+<div align="center">
 
-An end-to-end **batch data engineering pipeline** that ingests, cleans, joins,
-and analyzes supplier, inventory, and shipment data for a retail supply
-chain — built with **PySpark**, **Apache Airflow**, and **SQL**.
+# 🛒 Retail Supply Chain Data Pipeline
 
-This is a beginner-to-intermediate portfolio project demonstrating core data
-engineering skills: data modeling, batch ETL, workflow orchestration, data
-quality handling, and SQL analytics.
+### A local-first batch data engineering project built with Python, PySpark, and SQL
 
----
+<p>
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img alt="PySpark" src="https://img.shields.io/badge/PySpark-ETL-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white">
+  <img alt="SQL" src="https://img.shields.io/badge/SQL-Analytics-4479A1?style=for-the-badge&logo=postgresql&logoColor=white">
+  <img alt="Platform" src="https://img.shields.io/badge/Platform-Local%20%7C%20Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white">
+</p>
 
-## 1. Project Overview
+**Ingest → Transform → Validate → Analyze**
 
-Retail companies receive data from many suppliers, track thousands of SKUs
-across warehouses, and manage continuous inbound/outbound shipments. This
-project simulates that environment and builds a pipeline that:
+A portfolio project that transforms supplier, inventory, and shipment CSV files into an analytics-ready dataset and checks data quality before downstream analysis.
 
-1. **Ingests** raw CSV extracts for suppliers, inventory, and shipments.
-2. **Cleans** the data — handling nulls, duplicates, and inconsistent formatting.
-3. **Joins** the three datasets into a single analytics-ready fact table.
-4. **Orchestrates** the whole process daily using Apache Airflow.
-5. **Analyzes** the result with SQL — top suppliers, delayed shipments,
-   inventory turnover, and monthly shipment volume.
-
-```
-suppliers.csv + inventory.csv + shipments.csv
-        │
-        ▼
-   PySpark transform (clean → dedupe → standardize → join)
-        │
-        ▼
-   analytical_dataset (Parquet / CSV)
-        │
-        ▼
-   SQL analytics (top suppliers, delays, turnover, monthly volume)
-```
+</div>
 
 ---
 
-## 2. Architecture Diagram
+## 📌 Table of contents
+
+- [Project overview](#-project-overview)
+- [Architecture](#-architecture)
+- [Technology stack](#-technology-stack)
+- [Repository structure](#-repository-structure)
+- [Data sources](#-data-sources)
+- [Getting started on Windows](#-getting-started-on-windows)
+- [Run the pipeline](#-run-the-pipeline)
+- [Data quality rules](#-data-quality-rules)
+- [Metrics and logging](#-metrics-and-logging)
+- [SQL analytics](#-sql-analytics)
+- [Output data](#-output-data)
+- [Troubleshooting](#-troubleshooting)
+- [Roadmap](#-roadmap)
+- [Attribution and license](#-attribution-and-license)
+
+## 🎯 Project overview
+
+Retail supply chains rely on accurate supplier, inventory, and shipment information. This project simulates a batch pipeline that brings these datasets together so they can be inspected and analyzed.
+
+### What the project does
+
+- **Ingests** supplier, inventory, and shipment data from CSV files.
+- **Transforms** and combines data using PySpark.
+- **Stores** analytical output in Parquet and CSV formats.
+- **Validates** important data quality rules before analysis.
+- **Quarantines** invalid records when the validation rules identify them.
+- **Logs** validation results to the console and a local log file.
+- **Analyzes** supply-chain trends with SQL/Spark-based analytics.
+- **Records metrics** such as record counts, validation status, and duration.
+
+> **Execution note:** The core workflow is designed to run locally. Airflow-related files are present in the repository, but Airflow orchestration is optional and is not required for the local commands below.
+
+## 🧭 Architecture
+
+The core local workflow is:
 
 ```mermaid
 flowchart TD
-    A1[suppliers.csv] --> B[Airflow: check_source_files]
-    A2[inventory.csv] --> B
-    A3[shipments.csv] --> B
+    A["📄 suppliers.csv"] --> D["🧹 PySpark ETL"]
+    B["📄 inventory.csv"] --> D
+    C["📄 shipments.csv"] --> D
+    D --> E[("🗂️ Analytical dataset<br/>Parquet + CSV")]
+    E --> F["🔎 Data quality validation"]
+    F --> G{"Quality checks pass?"}
+    G -- Yes --> H["📊 SQL / Spark analytics"]
+    G -- No --> I["🚧 Quarantine invalid rows<br/>and report failure"]
+    F --> J["📝 Logs + run metrics"]
+    H --> K["📈 Supply-chain insights"]
 
-    B --> C[Airflow: ingest_raw_data<br/>stage to bronze zone]
-    C --> D[Airflow: run_spark_transform<br/>spark-submit transform.py]
+    classDef source fill:#DCEBFF,stroke:#3973AC,color:#153452,stroke-width:1.5px;
+    classDef transform fill:#DDF7E8,stroke:#218653,color:#12452C,stroke-width:1.5px;
+    classDef storage fill:#FFF0D8,stroke:#C78019,color:#613A05,stroke-width:1.5px;
+    classDef quality fill:#F1E5FF,stroke:#8A5BC2,color:#43266A,stroke-width:1.5px;
+    classDef analytics fill:#D9F4F4,stroke:#188A8A,color:#104D4D,stroke-width:1.5px;
+    classDef observability fill:#FFE2E2,stroke:#BD5555,color:#6A2222,stroke-width:1.5px;
 
-    subgraph Spark[PySpark Transformation]
-        D1[Clean nulls] --> D2[Remove duplicates]
-        D2 --> D3[Standardize columns and types]
-        D3 --> D4[Join suppliers + inventory + shipments]
-    end
-
-    D --> Spark
-    Spark --> E[(Gold: analytical_dataset<br/>Parquet + CSV)]
-
-    E --> F[Airflow: run_sql_analytics<br/>load to PostgreSQL]
-    F --> G[sql/analytics.sql]
-
-    subgraph Analytics[SQL Analytics Outputs]
-        G1[Top Suppliers]
-        G2[Delayed Shipments]
-        G3[Inventory Turnover]
-        G4[Monthly Shipment Volume]
-    end
-
-    G --> Analytics
-    Analytics --> H[Airflow: generate_final_report]
-    H --> I[Airflow: notify_completion]
+    class A,B,C source;
+    class D transform;
+    class E storage;
+    class F,G,I quality;
+    class H,K analytics;
+    class J observability;
 ```
 
-See [`architecture.md`](architecture.md) for a detailed component breakdown.
+### Pipeline stages
 
----
+| Stage | Purpose | Main location |
+|---|---|---|
+| Source data | Holds the input CSV files | `datasets/` |
+| ETL | Cleans, transforms, and joins data | `pyspark/transform.py` |
+| Analytical storage | Writes Parquet and CSV datasets | `output/` |
+| Data quality | Checks required IDs, negative values, and duplicates | `data_quality/validate_data.py` |
+| Logging | Captures pipeline and validation messages | `utils/logger.py`, `logs/` |
+| Metrics | Stores the latest validation run summary | `pipeline_metrics/` |
+| Analytics | Runs supply-chain analysis | `sql/` |
 
-## 3. Folder Structure
+## 🧰 Technology stack
 
-```
+| Technology | How it is used |
+|---|---|
+| Python | Pipeline scripts, logging, metrics |
+| PySpark | Distributed-style DataFrame transformations running locally |
+| Spark SQL / SQL | Analytical queries and aggregations |
+| CSV | Source data format |
+| Parquet | Columnar analytical output format |
+| Git and GitHub | Version control and portfolio sharing |
+| Apache Airflow | Optional orchestration path; not required for the local workflow |
+
+## 🗂️ Repository structure
+
+```text
 retail-supply-chain-pipeline/
 │
-├── airflow/
-│   ├── retail_pipeline_dag.py     # Airflow DAG definition
-│   └── run_sql_analytics.py       # Helper: loads Gold data to Postgres + runs analytics.sql
-│
 ├── datasets/
-│   ├── suppliers.csv              # 100 rows
-│   ├── inventory.csv              # 1,000 rows
-│   └── shipments.csv              # 2,000 rows
+│   ├── suppliers.csv
+│   ├── inventory.csv
+│   └── shipments.csv
 │
 ├── pyspark/
-│   └── transform.py               # Clean, dedupe, standardize, join -> analytical dataset
+│   └── transform.py
+│
+├── data_quality/
+│   └── validate_data.py
 │
 ├── sql/
-│   └── analytics.sql              # Top suppliers / delays / turnover / monthly volume
+│   ├── analytics.sql
+│   └── run_analytics.py
 │
-├── screenshots/                   # Place Airflow UI / Spark run screenshots here
+├── utils/
+│   ├── __init__.py
+│   └── logger.py
 │
-├── requirements.txt
+├── pipeline_metrics/
+│   └── record_metrics.py
+│
+├── airflow/                 # Optional orchestration-related files
+├── screenshots/              # Add project screenshots here
+├── config.py
 ├── architecture.md
+├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
----
+Generated folders such as `output/`, `logs/`, and the virtual environment are created locally and should not be committed.
 
-## 4. Tech Stack
+> If you add `run_pipeline.py` and automated tests as part of your next improvements, include them in this structure after verifying that the files exist and the commands pass.
 
-| Layer            | Technology                          |
-|-------------------|----------------------------------------|
-| Orchestration       | Apache Airflow 2.9                       |
-| Transformation        | PySpark 3.5 (Spark SQL + DataFrame API)    |
-| Storage formats          | CSV (raw), Parquet + CSV (analytical dataset) |
-| Analytics database          | PostgreSQL (optional; Spark SQL / DuckDB also work) |
-| Language                       | Python 3.10+                                  |
-| Data generation                   | Python `random` / `csv` (seeded, deterministic) |
+## 📦 Data sources
 
----
+The project uses three input CSV datasets:
 
-## 5. Installation & Setup
+| File | Purpose |
+|---|---|
+| `suppliers.csv` | Supplier attributes and related information |
+| `inventory.csv` | Product and inventory information |
+| `shipments.csv` | Shipment details, quantities, dates, and values |
 
-### 5.1 Prerequisites
-- Python 3.10+
-- Java 11+ (required by PySpark)
-- (Optional) PostgreSQL 13+ for the SQL analytics layer
+The repository's sample data is intended for learning and portfolio demonstration. Review the CSV headers and the transformation code to confirm exact schemas and row counts for your local copy.
 
-### 5.2 Clone & install dependencies
+## 🪟 Getting started on Windows
 
-```bash
-git clone <your-repo-url> retail-supply-chain-pipeline
+### Prerequisites
+
+- Python 3.10 or later (the current development environment uses Python 3.12)
+- Java installed and configured for your PySpark version
+- Git
+- Visual Studio Code or another editor
+
+### 1. Clone the repository
+
+Replace the URL below with your own fork URL if you are publishing a personal copy.
+
+```powershell
+git clone https://github.com/Atharva-512/retail-supply-chain-pipeline.git
 cd retail-supply-chain-pipeline
-python3 -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+```
+
+### 2. Create and activate a virtual environment
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+If PowerShell blocks activation, you can invoke the environment's Python directly:
+
+```powershell
+.\venv\Scripts\python.exe --version
+```
+
+### 3. Install dependencies
+
+```powershell
+python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 5.3 Run the PySpark transformation standalone
+### 4. Check Python and Java
 
-```bash
-cd pyspark
-python3 transform.py --input-dir ../datasets --output-dir ../output
-# or, using a real Spark cluster/binary:
-spark-submit transform.py --input-dir ../datasets --output-dir ../output
+```powershell
+python --version
+java -version
 ```
 
-This produces:
+PySpark requires a compatible Java installation. If Spark reports a Java-related error, verify `JAVA_HOME` and that `java` is available in `PATH`.
+
+## ▶️ Run the pipeline
+
+Run these commands from the **repository root** in PowerShell, with the virtual environment activated.
+
+### Step 1 — Run PySpark ETL
+
+```powershell
+python .\pyspark\transform.py --input-dir .\datasets --output-dir .\output
+```
+
+Expected output locations:
+
 - `output/analytical_dataset_parquet/`
 - `output/analytical_dataset_csv/`
 
-### 5.4 Run the SQL analytics (optional, requires PostgreSQL)
+### Step 2 — Run data quality validation
 
-```bash
-createdb retail_pipeline
-export PG_HOST=localhost PG_PORT=5432 PG_DATABASE=retail_pipeline PG_USER=postgres PG_PASSWORD=postgres
+Use module execution so Python can resolve the project-root `utils` package:
 
-python3 airflow/run_sql_analytics.py \
-    --output-dir ../output \
-    --sql-file ../sql/analytics.sql \
-    --table analytical_dataset
+```powershell
+python -m data_quality.validate_data
 ```
 
-Results are written to `output/analytics_results/*.csv`.
+The validation script reads the Parquet dataset produced by the ETL stage. It logs record counts and validation status, and writes invalid rows to `output/quarantine/` when invalid rows are found.
 
-> **Running without PostgreSQL:** load `output/analytical_dataset_csv/*.csv`
-> into DuckDB or Spark SQL instead, then run the same queries from
-> `sql/analytics.sql` (the syntax is ANSI-SQL compatible).
+### Step 3 — Run SQL analytics
 
-### 5.5 Run the full pipeline with Airflow
-
-```bash
-export AIRFLOW_HOME=~/airflow
-export RETAIL_PIPELINE_ROOT=$(pwd)
-
-airflow db init
-airflow users create \
-    --username admin --password admin \
-    --firstname Admin --lastname User \
-    --role Admin --email admin@example.com
-
-mkdir -p $AIRFLOW_HOME/dags
-cp airflow/retail_pipeline_dag.py $AIRFLOW_HOME/dags/
-cp airflow/run_sql_analytics.py $AIRFLOW_HOME/dags/   # or keep path in RETAIL_PIPELINE_ROOT
-
-airflow standalone
+```powershell
+python .\sql\run_analytics.py
 ```
 
-Open the Airflow UI at `http://localhost:8080`, enable the
-`retail_supply_chain_pipeline` DAG, and trigger a run. Add screenshots of
-the DAG graph / task logs to the `screenshots/` folder.
+The analytics script reads the generated analytical dataset. Review its console output for supplier, shipment, delay, inventory, and monthly summaries implemented in the script.
+
+### Run order at a glance
+
+```mermaid
+flowchart LR
+    A["1. transform.py"] --> B["2. validate_data"]
+    B --> C["3. run_analytics.py"]
+    C --> D["Review results"]
+
+    classDef step fill:#E4F0FF,stroke:#3674B5,color:#183B61,stroke-width:1.5px;
+    classDef result fill:#DDF7E8,stroke:#218653,color:#12452C,stroke-width:1.5px;
+    class A,B,C step;
+    class D result;
+```
+
+> **Optional pipeline runner:** If you create and test a root-level `run_pipeline.py`, you can expose the full sequence through `python .\run_pipeline.py`. Do not use that command until the runner file exists and has been tested in your environment.
+
+## ✅ Data quality rules
+
+The current validation script checks the following rules:
+
+| Rule | What it checks |
+|---|---|
+| Required shipment ID | `shipment_id` must not be null |
+| Required product ID | `product_id` must not be null |
+| Non-negative quantity | `quantity_shipped` must not be negative |
+| Non-negative shipment value | `total_shipment_value` must not be negative |
+| Unique shipment ID | Detects shipment IDs that occur more than once |
+
+### Validation behavior
+
+- Total, valid, and invalid record counts are logged.
+- Duplicate shipment ID counts are logged.
+- Invalid rows are written to `output/quarantine/` when invalid rows are detected.
+- The script reports failure if invalid rows or duplicate shipment IDs are detected.
+- A passing run is logged as `DATA QUALITY STATUS: PASSED`.
+
+**Scope note:** The current duplicate check reports duplicate shipment IDs; it does not automatically remove those duplicates from the analytical dataset. Nulls in columns other than the explicitly checked IDs, and other business-specific rules, require additional checks if they are needed.
+
+## 📈 Metrics and logging
+
+The logging utility is in `utils/logger.py`. Log output is written to the console and, when configured as in the current project, to:
+
+```text
+logs/pipeline.log
+```
+
+The metrics helper is:
+
+```text
+pipeline_metrics/record_metrics.py
+```
+
+It writes the latest metrics to:
+
+```text
+pipeline_metrics/latest_run.json
+```
+
+Metrics include:
+
+- UTC run timestamp
+- Total record count
+- Valid record count
+- Invalid record count
+- Duplicate shipment ID count
+- Run status
+- Duration in seconds
+
+Run the metrics helper's standalone smoke test with:
+
+```powershell
+python -m pipeline_metrics.record_metrics
+```
+
+This standalone command writes **sample values**. For actual validation results, run the data quality module after the metrics helper has been integrated with it.
+
+## 📊 SQL analytics
+
+The SQL and analytics files are:
+
+- `sql/analytics.sql` — SQL query definitions
+- `sql/run_analytics.py` — local analytics runner
+
+Depending on the implemented queries, the project can help investigate questions such as:
+
+- Which suppliers contribute the greatest shipment value?
+- How many shipments are delayed?
+- What is the average delivery delay?
+- Which products have low inventory?
+- How does shipment volume vary by month?
+- How are shipments distributed by status?
+
+Refer to `sql/analytics.sql` and the output of `run_analytics.py` for the exact query logic and fields currently implemented.
+
+## 🧾 Output data
+
+After a successful ETL run, the principal outputs are:
+
+```text
+output/
+├── analytical_dataset_parquet/
+└── analytical_dataset_csv/
+```
+
+If validation finds invalid rows, it may also create:
+
+```text
+output/
+└── quarantine/
+```
+
+These are generated artifacts. They are excluded from version control so that the repository remains lightweight and reproducible.
+
+## 🛠️ Troubleshooting
+
+### `ModuleNotFoundError: No module named 'utils'`
+
+Run the validation script as a module from the repository root:
+
+```powershell
+python -m data_quality.validate_data
+```
+
+Check that these files exist:
+
+```text
+utils/
+├── __init__.py
+└── logger.py
+```
+
+### Spark or Java startup errors
+
+Check:
+
+```powershell
+python --version
+java -version
+```
+
+Ensure the installed Java version is compatible with your PySpark version and configured in `PATH`/`JAVA_HOME`.
+
+### Analytics says the Parquet output does not exist
+
+Run ETL first:
+
+```powershell
+python .\pyspark\transform.py --input-dir .\datasets --output-dir .\output
+```
+
+Then run validation and analytics.
+
+### Generated files appear in Git status
+
+Review `.gitignore` and check whether the files were already tracked. Ignore rules do not automatically remove previously tracked files from Git.
+
+## 🗺️ Roadmap
+
+- [x] Local PySpark ETL workflow
+- [x] Parquet and CSV analytical outputs
+- [x] Data quality validation and invalid-row quarantine
+- [x] Logging utility
+- [x] Metrics helper for run summaries
+- [ ] Add tests for validation rules and transformations
+- [ ] Complete and test a single-command pipeline runner
+- [ ] Add representative failure-case test data
+- [ ] Add documented sample outputs and screenshots
+- [ ] Consider Airflow orchestration after the local pipeline is stable
+- [ ] Add CI checks with GitHub Actions
+
+## 📜 Attribution and license
+
+This repository is based on the original project:
+
+**Original repository:** [Atharva-512/retail-supply-chain-pipeline](https://github.com/Atharva-512/retail-supply-chain-pipeline)
+
+Retain the original license and attribution notices required by that repository. Describe personal modifications clearly and do not imply that the original project was authored entirely from scratch.
+
+Before redistributing, confirm the license terms in the repository's license file. If no license file is present, do not assume that the code is unrestricted for reuse.
 
 ---
 
-## 6. Sample Outputs
+<div align="center">
 
-### 6.1 Final analytical dataset (excerpt)
+**Built as a hands-on Data Engineering portfolio project**
 
-| shipment_id | supplier_name           | product_name        | total_shipment_value | status     | is_delayed |
-|-------------|---------------------------|------------------------|------------------------:|------------|------------|
-| SHP000005   | Pacific Logistics Group   | Football #686            | 231,936.64               | IN_TRANSIT | false      |
-| SHP000036   | United Manufacturing Corp | Vitamin C Serum #782       | 7,137.70                   | DELIVERED  | true       |
-| SHP000045   | Global Manufacturing Corp | Air Fryer #947                | 653,902.32                    | DELIVERED  | false      |
+*Local-first • Reproducible • Focused on practical ETL and data quality*
 
-### 6.2 Top Suppliers
-
-| supplier_id | supplier_name             | country | avg_rating | total_shipments | total_shipment_value |
-|-------------|-----------------------------|---------|-----------:|-----------------:|------------------------:|
-| SUP0040     | Horizon Goods Network          | India   | 4.8        | 37                | 15,427,120.76             |
-| SUP0093     | National Wholesale Partners       | Brazil  | 4.2        | 27                | 11,032,978.11                |
-| SUP0007     | Apex Manufacturing Corp              | USA     | 4.7        | 29                | 10,948,052.86                   |
-
-### 6.3 Delayed Shipments (sample)
-
-| shipment_id | supplier_name        | product_name           | delay_days | status  |
-|-------------|------------------------|---------------------------|-----------:|---------|
-| SHP001337   | Nova Supplies Co          | Basmati Rice 5kg #828         | 10         | DELAYED |
-| SHP001818   | Apex Industries Inc          | Plush Bear #978                    | 10         | DELAYED |
-| SHP000919   | Global Logistics Group          | Cricket Bat #439                       | 10         | DELAYED |
-
-### 6.4 Monthly Shipment Volume (sample)
-
-| shipment_year | shipment_month | total_shipments | total_units | total_value   |
-|---------------|-----------------|------------------:|--------------:|----------------:|
-| 2024          | 1               | 95                 | 47,019          | 29,510,210.61    |
-| 2024          | 2               | 71                 | 34,038            | 23,278,429.57       |
-| 2024          | 3               | 82                 | 40,855               | 21,370,797.21          |
-
-> Numbers above were generated from the included synthetic datasets and will
-> vary slightly each time `gen_data.py`-style generation is re-run with a
-> different seed.
-
----
-
-## 7. Data Quality Handled by the Pipeline
-
-The raw CSVs intentionally contain realistic messiness, all handled in
-`pyspark/transform.py`:
-- Missing values (empty `rating`, `unit_price`, `shipping_cost`, etc.) → filled with sensible defaults
-- Duplicate rows (~1% of each file) → removed via `dropDuplicates` on primary keys
-- Inconsistent casing/whitespace in names → trimmed and standardized
-- Shipments with no `actual_delivery_date` (still in transit/cancelled) → `delay_days` left null instead of defaulting to 0
-
----
-
-## 8. Future Improvements
-
-- [ ] Replace local CSVs with cloud object storage (S3 / Azure Data Lake / GCS) as the raw landing zone
-- [ ] Move Spark execution to a managed cluster (EMR, Databricks, or Dataproc) for larger volumes
-- [ ] Add data quality testing with **Great Expectations** or **dbt tests**
-- [ ] Add **dbt** for SQL transformation/version control instead of raw `.sql` scripts
-- [ ] Incremental/CDC ingestion instead of full daily reloads
-- [ ] Add a BI layer (Metabase / Looker Studio / Power BI) on top of the analytical dataset
-- [ ] Add CI/CD (GitHub Actions) to test the Spark job and DAG on every commit
-- [ ] Add Airflow SLAs, alerting (Slack/email), and data lineage (OpenLineage)
-- [ ] Containerize the whole stack with Docker Compose (Airflow + Spark + Postgres)
-- [ ] Add unit tests for `transform.py` using `pytest` + `chispa`/`pyspark.testing`
-
----
-
-## 9. License
-
-This is a learning/portfolio project. Feel free to fork, modify, and reuse.
+</div>
