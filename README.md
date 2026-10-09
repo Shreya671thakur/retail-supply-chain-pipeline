@@ -411,17 +411,7 @@ Review `.gitignore` and check whether the files were already tracked. Ignore rul
 - [ ] Consider Airflow orchestration after the local pipeline is stable
 - [ ] Add CI checks with GitHub Actions
 
-## 📜 Attribution and license
 
-This repository is based on the original project:
-
-**Original repository:** [Atharva-512/retail-supply-chain-pipeline](https://github.com/Atharva-512/retail-supply-chain-pipeline)
-
-Retain the original license and attribution notices required by that repository. Describe personal modifications clearly and do not imply that the original project was authored entirely from scratch.
-
-Before redistributing, confirm the license terms in the repository's license file. If no license file is present, do not assume that the code is unrestricted for reuse.
-
----
 
 <div align="center">
 
